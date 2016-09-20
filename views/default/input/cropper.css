@@ -1,0 +1,14 @@
+.cropper-input-image-container {
+	max-width: 600px;
+}
+
+.cropper-input-image {
+	width: 100%;
+	height: auto;
+	display: inline-block;
+	max-width: 600px;
+}
+
+.file-input-has-cropper + .cropper-input {
+    margin: 10px auto;
+}

@@ -1,0 +1,36 @@
+{
+	"name": "hypejunction/hypeicons",
+	"type": "elgg-plugin",
+	"description": "Interface for uploading and cropping entity icons and covers",
+	"homepage": "http://hypejunction.com",
+	"keywords": [
+		"elgg",
+		"plugin",
+		"icon",
+		"cover",
+		"avatar",
+		"cropper"
+		
+	],
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Ismayil Khayredinov",
+			"email": "info@hypejunction.com"
+		}
+	],
+	"extra": {
+		"installer-name": "hypeIcons"
+	},
+	"require": {
+		"php": ">=5.5",
+		"composer/installers": "~1.0",
+		"bower-asset/cropper": "~2.1"
+	},
+	"autoload": {
+		"psr-0": {
+			"hypeJunction": "classes/hypeJunction/"
+		}
+	}
+}
+
