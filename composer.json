@@ -31,6 +31,10 @@
 		"psr-0": {
 			"hypeJunction": "classes/hypeJunction/"
 		}
+	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true
+		}
 	}
 }
-
