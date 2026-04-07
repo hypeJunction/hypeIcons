@@ -11,14 +11,12 @@ $entity = get_entity($guid);
 $icon_type = get_input('icon_type', 'icon');
 
 if (!$entity || !$entity->canEdit() || !Settings::hasIconSupport($entity, $icon_type)) {
-	register_error(elgg_echo("icons:$icon_type:upload:fail"));
-	forward(REFERER);
+	return elgg_error_response(elgg_echo("icons:$icon_type:upload:fail"));
 }
 
 $error = elgg_get_friendly_upload_error($_FILES['icon']['error']);
 if ($error) {
-	register_error($error);
-	forward(REFERER);
+	return elgg_error_response($error);
 }
 
 $coords = [];
@@ -51,8 +49,7 @@ if ($icon_type == 'cover') {
 }
 
 if (!$entity->saveIconFromUploadedFile('icon', $icon_type, $coords)) {
-	register_error(elgg_echo("icons:$icon_type:upload:fail"));
-	forward(REFERER);
+	return elgg_error_response(elgg_echo("icons:$icon_type:upload:fail"));
 }
 
 $type = $entity->type;
@@ -61,8 +58,6 @@ $subtype = $entity->getSubtype() ? : 'default';
 $event = $type == 'user' ? 'profileiconupdate' : "update:$icon_type";
 
 if (elgg_trigger_event($event, $entity->type, $entity)) {
-	system_message(elgg_echo("icons:$icon_type:upload:success"));
-
 	if ($type == 'user') {
 		$view = "river/user/default/profileiconupdate";
 	} else {
@@ -82,4 +77,4 @@ if (elgg_trigger_event($event, $entity->type, $entity)) {
 	));
 }
 
-forward(REFERER);
+return elgg_ok_response('', elgg_echo("icons:$icon_type:upload:success"), REFERER);

@@ -9,10 +9,9 @@ $entity = get_entity($guid);
 $icon_type = get_input('icon_type', 'icon');
 
 if (!$entity || !$entity->canEdit()) {
-	register_error(elgg_echo("icons:$icon_type:remove:fail"));
-	forward(REFERER);
+	return elgg_error_response(elgg_echo("icons:$icon_type:remove:fail"));
 }
 
 $entity->deleteIcon($icon_type);
 
-system_message(elgg_echo("icons:$icon_type:remove:success"));
+return elgg_ok_response('', elgg_echo("icons:$icon_type:remove:success"), REFERER);

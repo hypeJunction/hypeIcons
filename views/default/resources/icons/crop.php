@@ -2,8 +2,6 @@
 
 use hypeJunction\Icons\Settings;
 
-elgg_push_context('icons/crop');
-
 $guid = elgg_extract('guid', $vars);
 $icon_type = elgg_extract('icon_type', $vars, 'icon');
 
@@ -12,7 +10,7 @@ elgg_entity_gatekeeper($guid);
 $entity = get_entity($guid);
 
 if (!$entity->canEdit() || !Settings::hasIconSupport($entity, $icon_type)) {
-	forward('', '403');
+	throw new \Elgg\Exceptions\HttpException('', ELGG_HTTP_FORBIDDEN);
 }
 
 if ($entity instanceof \ElggUser || $entity instanceof \ElggGroup) {
@@ -24,7 +22,6 @@ if ($entity instanceof \ElggUser || $entity instanceof \ElggGroup) {
 elgg_push_breadcrumb($entity->getDisplayName(), $entity->getURL());
 
 $title = elgg_echo('icons:crop');
-elgg_push_breadcrumb($title, current_page_url());
 
 if (elgg_is_sticky_form('icons/crop')) {
 	$sticky_values = elgg_get_sticky_values('icons/crop');
