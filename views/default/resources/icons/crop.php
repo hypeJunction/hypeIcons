@@ -15,7 +15,7 @@ if (!$entity->canEdit() || !Settings::hasIconSupport($entity, $icon_type)) {
 	forward('', '403');
 }
 
-if (elgg_instanceof($entity, 'user') || elgg_instanceof($entity, 'group')) {
+if ($entity instanceof \ElggUser || $entity instanceof \ElggGroup) {
 	elgg_set_page_owner_guid($entity->guid);
 } else {
 	elgg_set_page_owner_guid($entity->container_guid);
