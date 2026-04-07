@@ -42,7 +42,7 @@ if (elgg_is_xhr()) {
 	return;
 }
 
-$body = elgg_view_layout('content', [
+$body = elgg_view_layout('default', [
 	'content' => $content,
 	'title' => $title,
 	'filter' => elgg_view('icons/filter', [
