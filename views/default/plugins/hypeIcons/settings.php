@@ -39,24 +39,19 @@ $fields = ob_get_clean();
 
 echo elgg_view_module('aside', elgg_echo('interactions:settings:icon_display'), $fields);
 
-$dbprefix = elgg_get_config('dbprefix');
-$sql = "
-	SELECT *
-	FROM {$dbprefix}entity_subtypes
-	ORDER BY subtype
-";
-
-$rows = get_data($sql);
-
 $options = [
 	'user:' => elgg_echo('item:user'),
 	'group:' => elgg_echo('item:group'),
 ];
 
-foreach ($rows as $row) {
-	$type = $row->type;
-	$subtype = $row->subtype;
-	$options["$type:$subtype"] = elgg_echo("item:$type:$subtype");
+$registered_types = get_registered_entity_types();
+foreach ($registered_types as $type => $subtypes) {
+	if (empty($subtypes)) {
+		continue;
+	}
+	foreach ($subtypes as $subtype) {
+		$options["$type:$subtype"] = elgg_echo("item:$type:$subtype");
+	}
 }
 
 ob_start();
