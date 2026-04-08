@@ -18,17 +18,19 @@ class Icons {
 	 * @param array  $params Hook params
 	 * @return string
 	 */
-	public static function setDefaultIcon($hook, $type, $return, $params) {
+	public static function setDefaultIcon(\Elgg\Hook $hook) {
+		$type = $hook->getType();
 
-		$entity = elgg_extract('entity', $params);
+
+		$entity = $hook->getParam('entity');
 		if (!$entity instanceof ElggEntity) {
 			return;
 		}
 		
-		$size = elgg_extract('size', $params, 'medium');
-		$icon_type = elgg_extract('type', $params, 'icon');
+		$size = $hook->getParam('size', 'medium');
+		$icon_type = $hook->getParam('type', 'icon');
 
-		if (!$return && Settings::hasIconSupport($entity, $icon_type) && $entity->hasIcon($size, $icon_type)) {
+		if (!$hook->getValue() && Settings::hasIconSupport($entity, $icon_type) && $entity->hasIcon($size, $icon_type)) {
 			return elgg_get_inline_url($entity->getIcon($size, $icon_type));
 		}
 
@@ -44,7 +46,7 @@ class Icons {
 		}
 
 		$replace_default = $icon_type == 'cover' || elgg_get_plugin_setting('replace_default_icons', 'hypeIcons');
-		if (!$return || !is_string($return) || ($replace_default && $core_path && 0 === strpos($return, $core_path))) {
+		if (!$hook->getValue() || !is_string($hook->getValue()) || ($replace_default && $core_path && 0 === strpos($hook->getValue(), $core_path))) {
 			$type = $entity->getType();
 			$subtype = $entity->getSubtype();
 			$views = array_filter([
@@ -71,14 +73,14 @@ class Icons {
 	 * @param array  $params Hook params
 	 * @return string
 	 */
-	public static function setDefaultFileIcons($hook, $type, $return, $params) {
+	public static function setDefaultFileIcons(\Elgg\Hook $hook) {
 
 		if (!elgg_get_plugin_setting('replace_filetype_icons', 'hypeIcons')) {
 			return;
 		}
 		
-		$entity = elgg_extract('entity', $params);
-		$size = elgg_extract('size', $params);
+		$entity = $hook->getParam('entity');
+		$size = $hook->getParam('size');
 
 		if (!$entity instanceof ElggFile || $entity->getSubtype() != 'file') {
 			return;
@@ -89,8 +91,8 @@ class Icons {
 			$mimetype = 'application/otcet-stream';
 		}
 
-		if (0 === strpos($mimetype, 'image/') && $entity->icontime && $return) {
-			return $return;
+		if (0 === strpos($mimetype, 'image/') && $entity->icontime && $hook->getValue()) {
+			return $hook->getValue();
 		}
 
 		$extension = pathinfo($entity->getFilenameOnFilestore(), PATHINFO_EXTENSION);
@@ -256,8 +258,8 @@ class Icons {
 	 * @param array  $params Hook params
 	 * @return array
 	 */
-	public static function setCoverSizes($hook, $type, $return, $params) {
-		if (!empty($return)) {
+	public static function setCoverSizes(\Elgg\Hook $hook) {
+		if (!empty($hook->getValue())) {
 			return;
 		}
 		
@@ -299,12 +301,12 @@ class Icons {
 	 * @param array  $params Hook params
 	 * @return void
 	 */
-	public static function saveCoverCroppingCoords($hook, $type, $return, $params) {
+	public static function saveCoverCroppingCoords(\Elgg\Hook $hook) {
 
-		$entity = elgg_extract('entity', $params);
-		$entity->cover_x1 = elgg_extract('x1', $params);
-		$entity->cover_y1 = elgg_extract('y1', $params);
-		$entity->cover_x2 = elgg_extract('x2', $params);
-		$entity->cover_y2 = elgg_extract('y2', $params);
+		$entity = $hook->getParam('entity');
+		$entity->cover_x1 = $hook->getParam('x1');
+		$entity->cover_y1 = $hook->getParam('y1');
+		$entity->cover_x2 = $hook->getParam('x2');
+		$entity->cover_y2 = $hook->getParam('y2');
 	}
 }
