@@ -45,7 +45,7 @@ class Icons {
 			}
 		}
 
-		$replace_default = $icon_type == 'cover' || elgg_get_plugin_setting('replace_default_icons', 'hypeIcons');
+		$replace_default = $icon_type == 'cover' || elgg_get_plugin_setting('replace_default_icons', 'hypeicons');
 		if (!$hook->getValue() || !is_string($hook->getValue()) || ($replace_default && $core_path && 0 === strpos($hook->getValue(), $core_path))) {
 			$type = $entity->getType();
 			$subtype = $entity->getSubtype();
@@ -75,7 +75,7 @@ class Icons {
 	 */
 	public static function setDefaultFileIcons(\Elgg\Hook $hook) {
 
-		if (!elgg_get_plugin_setting('replace_filetype_icons', 'hypeIcons')) {
+		if (!elgg_get_plugin_setting('replace_filetype_icons', 'hypeicons')) {
 			return;
 		}
 		

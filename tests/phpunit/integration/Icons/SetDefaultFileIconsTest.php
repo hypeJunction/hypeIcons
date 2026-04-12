@@ -90,10 +90,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 
 		$file = $this->getMockBuilder(\ElggFile::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getSubtype', 'detectMimeType', 'getFilenameOnFilestore'])
+			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore'])
 			->getMock();
 		$file->method('getSubtype')->willReturn('file');
-		$file->method('detectMimeType')->willReturn('image/png');
+		$file->method('getMimeType')->willReturn('image/png');
 		$file->method('getFilenameOnFilestore')->willReturn('/tmp/a.png');
 		$file->mimetype = 'image/png';
 		$file->icontime = time();
@@ -115,10 +115,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 
 		$file = $this->getMockBuilder(\ElggFile::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getSubtype', 'detectMimeType', 'getFilenameOnFilestore'])
+			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore'])
 			->getMock();
 		$file->method('getSubtype')->willReturn('file');
-		$file->method('detectMimeType')->willReturn('application/pdf');
+		$file->method('getMimeType')->willReturn('application/pdf');
 		$file->method('getFilenameOnFilestore')->willReturn('/tmp/a.pdf');
 		$file->mimetype = 'application/pdf';
 

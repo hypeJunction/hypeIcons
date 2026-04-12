@@ -62,7 +62,8 @@ foreach (['x1', 'y1', 'x2', 'y2'] as $coord) {
 
 $id = elgg_extract('id', $vars);
 if (!$id) {
-	$id = md5(serialize($vars));
+	// Non-security DOM id; use sha256 to avoid weak-hash warnings.
+	$id = substr(hash('sha256', serialize($vars)), 0, 16);
 }
 
 $file_input_id = false;

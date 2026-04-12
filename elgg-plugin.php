@@ -5,6 +5,16 @@ use hypeJunction\Icons\Icons;
 use hypeJunction\Icons\Menus;
 
 return [
+	'plugin' => [
+		'name' => 'hypeIcons',
+		'version' => '2.0.0',
+		'description' => 'Interface for uploading and cropping entity icons and covers',
+		'category' => ['icon', 'cover', 'avatar', 'cropper'],
+		'author' => 'Ismayil Khayredinov (info@hypejunction.com)',
+		'website' => 'http://hypejunction.com',
+		'copyright' => '(c) Ismayil Khayredinov',
+		'license' => 'GPL-2.0-or-later',
+	],
 	'actions' => [
 		'icons/upload' => [],
 		'icons/crop' => [],

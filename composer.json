@@ -20,12 +20,18 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypeIcons"
+		"elgg-plugin": {
+			"id": "hypeicons"
+		}
 	},
 	"require": {
 		"php": ">=7.4",
-		"composer/installers": "~1.0",
+		"composer/installers": "^2.0",
+		"elgg/elgg": "^4.0",
 		"bower-asset/cropper": "~2.1"
+	},
+	"conflict": {
+		"elgg/elgg": "<4.0"
 	},
 	"autoload": {
 		"psr-4": {
