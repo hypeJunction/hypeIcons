@@ -1,4 +1,4 @@
-# hypeIcons — Architecture (Elgg 4.x)
+# hypeIcons — Architecture (Elgg 5.x)
 
 ## Summary
 
@@ -7,9 +7,9 @@ entity icons and cover images. It supports entity icons (square/rounded/circle),
 cover images with size presets, file-type icons (with SVG replacement), and
 cropping of user/group avatars as well as file thumbnails.
 
-Plugin id (4.x, lowercase): `hypeicons`
+Plugin id: `hypeicons`
 Composer name: `hypejunction/hypeicons`
-Target: Elgg `^4.0`, PHP `>=7.4`
+Target: Elgg `^5.0`, PHP `>=8.2`
 
 ## Directory structure
 
@@ -41,7 +41,7 @@ hypeicons/
 ### Routes
 - `icons` → `/icons/{segments}` → resource view `icons`
 
-### Hooks (Elgg 4.x hook-style, single `\Elgg\Hook` arg handlers)
+### Events (Elgg 5.x event-style, single `\Elgg\Event` arg handlers)
 - `entity:icon:url` (all)     → `Icons::setDefaultIcon` (priority 900)
 - `entity:icon:url` (object)  → `Icons::setDefaultFileIcons` (priority 600)
 - `entity:cover:url` (all)    → `Icons::setDefaultIcon` (priority 900)
@@ -65,7 +65,7 @@ hypeicons/
 
 ## Dependencies
 
-- `elgg/elgg` `^4.0`
+- `elgg/elgg` `^5.0`
 - `composer/installers` `^2.0`
 - `bower-asset/cropper` `~2.1` (vendored JS/CSS via Composer)
 
@@ -79,6 +79,20 @@ used alongside `hypeAttachments` and `hypeDropzone` in the bodyology stack.
 - `icon:{type}:{subtype}` / `cover:{type}:{subtype}` — per-entity-type toggles
 
 All settings are read via `elgg_get_plugin_setting(..., 'hypeicons')`.
+
+## Migration notes (4.x → 5.x)
+
+- `'hooks'` key in `elgg-plugin.php` renamed to `'events'` (Elgg 5.x requirement).
+- All hook handler signatures updated from `\Elgg\Hook $hook` to `\Elgg\Event $event`;
+  all `$hook->` calls updated to `$event->`.
+- `composer.json`: `php >=7.4` → `>=8.2`, `elgg/elgg ^4.0` → `^5.0`.
+- Docker test stack: PHP 7.4 → PHP 8.2 base image, MySQL 5.7 → 8.0, Playwright
+  v1.49.0 → v1.59.1.
+- PHPUnit tests adapted: `use Elgg\Hook` → `use Elgg\Event`; mock builders updated
+  to use `disableOriginalConstructor()` + `__get` stub to avoid PHP 8.2 strict
+  property access errors on uninitialized ElggEntity properties; SettingsTest
+  refactored to use real entity factories instead of mocked ElggEntity subclasses.
+- No data migration required — no schema changes, no stored data format changes.
 
 ## Migration notes (3.x → 4.x)
 

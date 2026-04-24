@@ -1,3 +1,15 @@
+<a name="3.0.0"></a>
+# 3.0.0 (Elgg 5.x)
+
+### Breaking changes
+
+* Requires Elgg `^5.0` and PHP `>=8.2`
+* `'hooks'` key in `elgg-plugin.php` renamed to `'events'`
+* All hook handlers updated from `\Elgg\Hook` to `\Elgg\Event` parameter type
+* Docker test stack upgraded: PHP 8.2, MySQL 8.0, Playwright v1.59.1
+
+See `ARCHITECTURE.md` for the full post-migration structure.
+
 <a name="2.0.0"></a>
 # 2.0.0 (Elgg 4.x)
 
