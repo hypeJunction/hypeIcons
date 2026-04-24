@@ -17,63 +17,64 @@ class SettingsTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeicons';
 	}
 
-	public function testUserWithExistingIconReturnsTrue(): void {
-		$user = $this->createUser();
-		$mock = $this->getMockBuilder(\ElggUser::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['hasIcon', 'getSubtype'])
-			->getMock();
-		$mock->method('hasIcon')->willReturn(true);
-		$mock->method('getSubtype')->willReturn('user');
-		// Public dynamic prop for ->type read by code under test.
-		$mock->type = 'user';
-
-		$this->assertTrue(Settings::hasIconSupport($mock, 'icon'));
-	}
-
-	public function testFallsBackToPluginSettingWhenNoIcon(): void {
+	/**
+     * @return void
+     */
+    public function testUserWithExistingIconReturnsTrue(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
 
-		$mock = $this->getMockBuilder(\ElggObject::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['hasIcon', 'getSubtype'])
-			->getMock();
-		$mock->method('hasIcon')->willReturn(false);
-		$mock->method('getSubtype')->willReturn('blog');
-		$mock->type = 'object';
+		$object = $this->createObject(['subtype' => 'article']);
+		// Use the plugin-setting path — fresh entities have no icon.
+		$plugin->setSetting('icon:object:article', '1');
+		$this->assertTrue(Settings::hasIconSupport($object, 'icon'));
+
+		$plugin->setSetting('icon:object:article', '');
+		$this->assertFalse(Settings::hasIconSupport($object, 'icon'));
+	}
+
+	/**
+     * @return void
+     */
+    public function testFallsBackToPluginSettingWhenNoIcon(): void {
+		$plugin = elgg_get_plugin_from_id('hypeicons');
+		if (!$plugin) {
+			$this->markTestSkipped('hypeicons plugin not registered in test DB');
+		}
+
+		$object = $this->createObject(['subtype' => 'blog']);
 
 		$plugin->setSetting('icon:object:blog', '1');
-		$this->assertTrue(Settings::hasIconSupport($mock, 'icon'));
+		$this->assertTrue(Settings::hasIconSupport($object, 'icon'));
 
 		$plugin->setSetting('icon:object:blog', '');
-		$this->assertFalse(Settings::hasIconSupport($mock, 'icon'));
+		$this->assertFalse(Settings::hasIconSupport($object, 'icon'));
 	}
 
-	public function testCoverTypeUsesCoverSetting(): void {
+	/**
+     * @return void
+     */
+    public function testCoverTypeUsesCoverSetting(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
 
-		$mock = $this->getMockBuilder(\ElggGroup::class)
-			->disableOriginalConstructor()
-			->onlyMethods(['hasIcon', 'getSubtype'])
-			->getMock();
-		$mock->method('hasIcon')->willReturn(false);
-		$mock->method('getSubtype')->willReturn('group');
-		$mock->type = 'group';
+		$group = $this->createGroup();
 
 		$plugin->setSetting('cover:group:group', '1');
-		$this->assertTrue(Settings::hasIconSupport($mock, 'cover'));
+		$this->assertTrue(Settings::hasIconSupport($group, 'cover'));
 
 		$plugin->setSetting('cover:group:group', '');
-		$this->assertFalse(Settings::hasIconSupport($mock, 'cover'));
+		$this->assertFalse(Settings::hasIconSupport($group, 'cover'));
 	}
 }

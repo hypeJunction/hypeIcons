@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Icons;
 
-use Elgg\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -18,12 +18,20 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeicons';
 	}
 
-	protected function makeHook(array $params, $value = null): Hook {
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+	/**
+     * @param array $params
+     * @param mixed $value
+     * @return Event
+     */
+    protected function makeHook(array $params, $value = null): Event {
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$hook->method('getName')->willReturn('entity:icon:url');
 		$hook->method('getType')->willReturn('object');
 		$hook->method('getValue')->willReturn($value);
@@ -34,7 +42,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		return $hook;
 	}
 
-	public function testReturnsVoidWhenSettingDisabled(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenSettingDisabled(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -49,7 +60,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertNull(Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testReturnsVoidWhenEntityIsNotFile(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenEntityIsNotFile(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -64,7 +78,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertNull(Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testReturnsVoidWhenFileSubtypeIsNotFile(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenFileSubtypeIsNotFile(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -81,22 +98,31 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertNull(Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testImageMimeWithIcontimePassesThroughExistingUrl(): void {
+	/**
+     * @return void
+     */
+    public function testImageMimeWithIcontimePassesThroughExistingUrl(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
 		$plugin->setSetting('replace_filetype_icons', '1');
 
+		$icontime = time();
 		$file = $this->getMockBuilder(\ElggFile::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore'])
+			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore', '__get'])
 			->getMock();
 		$file->method('getSubtype')->willReturn('file');
 		$file->method('getMimeType')->willReturn('image/png');
 		$file->method('getFilenameOnFilestore')->willReturn('/tmp/a.png');
-		$file->mimetype = 'image/png';
-		$file->icontime = time();
+		$file->method('__get')->willReturnCallback(function ($name) use ($icontime) {
+			return match ($name) {
+				'mimetype' => 'image/png',
+				'icontime' => $icontime,
+				default => null,
+			};
+		});
 
 		$hook = $this->makeHook(
 			['entity' => $file, 'size' => 'medium'],
@@ -106,7 +132,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertEquals('http://example.com/existing.png', Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testPdfFileReturnsSimplecacheUrlForPdfIcon(): void {
+	/**
+     * @return void
+     */
+    public function testPdfFileReturnsSimplecacheUrlForPdfIcon(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -115,12 +144,18 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 
 		$file = $this->getMockBuilder(\ElggFile::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore'])
+			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore', '__get'])
 			->getMock();
 		$file->method('getSubtype')->willReturn('file');
 		$file->method('getMimeType')->willReturn('application/pdf');
 		$file->method('getFilenameOnFilestore')->willReturn('/tmp/a.pdf');
-		$file->mimetype = 'application/pdf';
+		$file->method('__get')->willReturnCallback(function ($name) {
+			return match ($name) {
+				'mimetype' => 'application/pdf',
+				'icontime' => null,
+				default => null,
+			};
+		});
 
 		$hook = $this->makeHook(['entity' => $file, 'size' => 'medium']);
 		$result = Icons::setDefaultFileIcons($hook);

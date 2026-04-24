@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Icons;
 
-use Elgg\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -20,12 +20,21 @@ class MenusTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeicons';
 	}
 
-	protected function makeHook(string $type, array $params, array $value = []): Hook {
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+	/**
+     * @param string $type
+     * @param array $params
+     * @param array $value
+     * @return Event
+     */
+    protected function makeHook(string $type, array $params, array $value = []): Event {
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$hook->method('getName')->willReturn('register');
 		$hook->method('getType')->willReturn($type);
 		$hook->method('getValue')->willReturn($value);
@@ -36,13 +45,19 @@ class MenusTest extends IntegrationTestCase {
 		return $hook;
 	}
 
-	public function testSetupEntityMenuReturnsVoidForNonObject(): void {
+	/**
+     * @return void
+     */
+    public function testSetupEntityMenuReturnsVoidForNonObject(): void {
 		$user = $this->createUser();
 		$hook = $this->makeHook('menu:entity', ['entity' => $user]);
 		$this->assertNull(Menus::setupEntityMenu($hook));
 	}
 
-	public function testSetupEntityMenuReturnsValueForObject(): void {
+	/**
+     * @return void
+     */
+    public function testSetupEntityMenuReturnsValueForObject(): void {
 		$user = $this->createUser();
 		$object = $this->createObject(['subtype' => 'blog', 'owner_guid' => $user->guid]);
 
@@ -54,13 +69,19 @@ class MenusTest extends IntegrationTestCase {
 		$this->assertArrayHasKey('existing', $result);
 	}
 
-	public function testSetupUserHoverMenuReturnsVoidForNonUser(): void {
+	/**
+     * @return void
+     */
+    public function testSetupUserHoverMenuReturnsVoidForNonUser(): void {
 		$object = $this->createObject(['subtype' => 'blog']);
 		$hook = $this->makeHook('menu:user_hover', ['entity' => $object]);
 		$this->assertNull(Menus::setupUserHoverMenu($hook));
 	}
 
-	public function testSetupUserHoverMenuReturnsArrayForUser(): void {
+	/**
+     * @return void
+     */
+    public function testSetupUserHoverMenuReturnsArrayForUser(): void {
 		$user = $this->createUser();
 		$hook = $this->makeHook('menu:user_hover', ['entity' => $user], ['keep' => 'item']);
 		$result = Menus::setupUserHoverMenu($hook);
@@ -68,7 +89,10 @@ class MenusTest extends IntegrationTestCase {
 		$this->assertIsArray($result);
 	}
 
-	public function testSetupGroupProfileMenuReturnsVoidForNonGroup(): void {
+	/**
+     * @return void
+     */
+    public function testSetupGroupProfileMenuReturnsVoidForNonGroup(): void {
 		$user = $this->createUser();
 		$hook = $this->makeHook('profile_buttons', ['entity' => $user]);
 		$this->assertNull(Menus::setupGroupProfileMenu($hook));

@@ -32,7 +32,7 @@ return [
 			],
 		],
 	],
-	'hooks' => [
+	'events' => [
 		'entity:icon:url' => [
 			'all' => [
 				Icons::class . '::setDefaultIcon' => ['priority' => 900],

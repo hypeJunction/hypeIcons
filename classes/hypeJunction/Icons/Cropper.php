@@ -13,8 +13,8 @@ class Cropper {
 	 * @param array  $params Hook params
 	 * @return array
 	 */
-	public static function filterFileInputVars(\Elgg\Hook $hook) {
-		$return = $hook->getValue();
+	public static function filterFileInputVars(\Elgg\Event $event) {
+		$return = $event->getValue();
 
 
 		$cropper_params = elgg_extract('use_cropper', $return);

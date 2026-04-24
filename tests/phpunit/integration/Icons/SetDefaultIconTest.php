@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Icons;
 
-use Elgg\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -19,12 +19,21 @@ class SetDefaultIconTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeicons';
 	}
 
-	protected function makeHook(string $type, array $params, $value = null): Hook {
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+	/**
+     * @param string $type
+     * @param array $params
+     * @param mixed $value
+     * @return Event
+     */
+    protected function makeHook(string $type, array $params, $value = null): Event {
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$hook->method('getName')->willReturn('entity:icon:url');
 		$hook->method('getType')->willReturn($type);
 		$hook->method('getValue')->willReturn($value);
@@ -35,17 +44,26 @@ class SetDefaultIconTest extends IntegrationTestCase {
 		return $hook;
 	}
 
-	public function testReturnsVoidWhenEntityMissing(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenEntityMissing(): void {
 		$hook = $this->makeHook('all', ['entity' => null]);
 		$this->assertNull(Icons::setDefaultIcon($hook));
 	}
 
-	public function testReturnsVoidWhenEntityNotElggEntity(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenEntityNotElggEntity(): void {
 		$hook = $this->makeHook('all', ['entity' => new \stdClass()]);
 		$this->assertNull(Icons::setDefaultIcon($hook));
 	}
 
-	public function testFallsBackToSimpleCacheViewWhenNoValue(): void {
+	/**
+     * @return void
+     */
+    public function testFallsBackToSimpleCacheViewWhenNoValue(): void {
 		// User with no current icon URL and default setting should fall through
 		// to the view-based lookup. We can't guarantee the view exists, but we
 		// can at least assert the function handles a real ElggUser without error.
@@ -62,7 +80,10 @@ class SetDefaultIconTest extends IntegrationTestCase {
 		$this->assertTrue($result === null || is_string($result));
 	}
 
-	public function testExistingNonCorePathValueShortCircuitsWhenNoReplaceSetting(): void {
+	/**
+     * @return void
+     */
+    public function testExistingNonCorePathValueShortCircuitsWhenNoReplaceSetting(): void {
 		$plugin = elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -82,7 +103,10 @@ class SetDefaultIconTest extends IntegrationTestCase {
 		$this->assertNull($result);
 	}
 
-	public function testCoverTypeAlwaysReplacesDefault(): void {
+	/**
+     * @return void
+     */
+    public function testCoverTypeAlwaysReplacesDefault(): void {
 		$user = $this->createUser();
 		$hook = $this->makeHook('all', [
 			'entity' => $user,

@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Icons;
 
-use Elgg\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -16,19 +16,29 @@ class CropperTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	protected function makeHook(array $return): Hook {
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+	/**
+     * @param array $return
+     * @return Event
+     */
+    protected function makeHook(array $return): Event {
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$hook->method('getName')->willReturn('view_vars');
 		$hook->method('getType')->willReturn('input/file');
 		$hook->method('getValue')->willReturn($return);
 		return $hook;
 	}
 
-	public function testReturnsInputUnchangedWhenUseCropperMissing(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsInputUnchangedWhenUseCropperMissing(): void {
 		$hook = $this->makeHook(['class' => 'foo']);
 		$result = Cropper::filterFileInputVars($hook);
 
@@ -37,14 +47,20 @@ class CropperTest extends IntegrationTestCase {
 		$this->assertArrayNotHasKey('id', $result);
 	}
 
-	public function testReturnsInputUnchangedWhenUseCropperFalsy(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsInputUnchangedWhenUseCropperFalsy(): void {
 		$hook = $this->makeHook(['use_cropper' => false, 'class' => 'bar']);
 		$result = Cropper::filterFileInputVars($hook);
 
 		$this->assertEquals('bar', $result['class']);
 	}
 
-	public function testAppendsCropperClassWhenStringClass(): void {
+	/**
+     * @return void
+     */
+    public function testAppendsCropperClassWhenStringClass(): void {
 		$hook = $this->makeHook([
 			'use_cropper' => true,
 			'class' => 'elgg-input-file',
@@ -57,7 +73,10 @@ class CropperTest extends IntegrationTestCase {
 		$this->assertEquals('my-id', $result['id']);
 	}
 
-	public function testAppendsCropperClassWhenArrayClass(): void {
+	/**
+     * @return void
+     */
+    public function testAppendsCropperClassWhenArrayClass(): void {
 		$hook = $this->makeHook([
 			'use_cropper' => ['ratio' => 1],
 			'class' => ['foo', 'bar'],
@@ -70,7 +89,10 @@ class CropperTest extends IntegrationTestCase {
 		$this->assertStringContainsString('file-input-has-cropper', $result['class']);
 	}
 
-	public function testAddsClassWhenNoClassPresent(): void {
+	/**
+     * @return void
+     */
+    public function testAddsClassWhenNoClassPresent(): void {
 		$hook = $this->makeHook([
 			'use_cropper' => true,
 			'id' => 'some-id',
@@ -79,7 +101,10 @@ class CropperTest extends IntegrationTestCase {
 		$this->assertEquals('file-input-has-cropper', trim($result['class']));
 	}
 
-	public function testGeneratesIdWhenMissing(): void {
+	/**
+     * @return void
+     */
+    public function testGeneratesIdWhenMissing(): void {
 		$hook = $this->makeHook(['use_cropper' => true]);
 		$result = Cropper::filterFileInputVars($hook);
 
@@ -87,13 +112,19 @@ class CropperTest extends IntegrationTestCase {
 		$this->assertStringStartsWith('elgg-file-input-', $result['id']);
 	}
 
-	public function testGeneratedIdsAreUnique(): void {
+	/**
+     * @return void
+     */
+    public function testGeneratedIdsAreUnique(): void {
 		$r1 = Cropper::filterFileInputVars($this->makeHook(['use_cropper' => true]));
 		$r2 = Cropper::filterFileInputVars($this->makeHook(['use_cropper' => true]));
 		$this->assertNotEquals($r1['id'], $r2['id']);
 	}
 
-	public function testPreservesExistingId(): void {
+	/**
+     * @return void
+     */
+    public function testPreservesExistingId(): void {
 		$hook = $this->makeHook([
 			'use_cropper' => true,
 			'id' => 'keep-me',

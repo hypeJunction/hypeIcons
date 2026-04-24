@@ -82,11 +82,11 @@ class Menus {
 	 * @param array          $params Hook params
 	 * @return ElggMenuItem[]
 	 */
-	public static function setupEntityMenu(\Elgg\Hook $hook) {
-		$return = $hook->getValue();
+	public static function setupEntityMenu(\Elgg\Event $event) {
+		$return = $event->getValue();
 
 
-		$entity = $hook->getParam('entity');
+		$entity = $event->getParam('entity');
 		if (!$entity instanceof ElggObject) {
 			return;
 		}
@@ -111,11 +111,11 @@ class Menus {
 	 * @param array          $params Hook params
 	 * @return ElggMenuItem[]
 	 */
-	public static function setupUserHoverMenu(\Elgg\Hook $hook) {
-		$return = $hook->getValue();
+	public static function setupUserHoverMenu(\Elgg\Event $event) {
+		$return = $event->getValue();
 
 
-		$entity = $hook->getParam('entity');
+		$entity = $event->getParam('entity');
 		if (!$entity instanceof ElggUser) {
 			return;
 		}
@@ -146,11 +146,11 @@ class Menus {
 	 * @param array          $params Hook params
 	 * @return ElggMenuItem[]
 	 */
-	public static function setupGroupProfileMenu(\Elgg\Hook $hook) {
-		$return = $hook->getValue();
+	public static function setupGroupProfileMenu(\Elgg\Event $event) {
+		$return = $event->getValue();
 
 
-		$entity = $hook->getParam('entity');
+		$entity = $event->getParam('entity');
 		if (!$entity instanceof ElggGroup) {
 			return;
 		}

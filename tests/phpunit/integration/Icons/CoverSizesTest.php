@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Icons;
 
-use Elgg\Hook;
+use Elgg\Event;
 use Elgg\IntegrationTestCase;
 
 /**
@@ -16,12 +16,20 @@ class CoverSizesTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	protected function makeHook($value, array $params = []): Hook {
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+	/**
+     * @param mixed $value
+     * @param array $params
+     * @return Event
+     */
+    protected function makeHook($value, array $params = []): Event {
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$hook->method('getName')->willReturn('entity:cover:sizes');
 		$hook->method('getType')->willReturn('all');
 		$hook->method('getValue')->willReturn($value);
@@ -32,12 +40,18 @@ class CoverSizesTest extends IntegrationTestCase {
 		return $hook;
 	}
 
-	public function testReturnsVoidWhenValueAlreadySet(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenValueAlreadySet(): void {
 		$hook = $this->makeHook(['original' => []]);
 		$this->assertNull(Icons::setCoverSizes($hook));
 	}
 
-	public function testReturnsSizeMapWhenValueEmpty(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsSizeMapWhenValueEmpty(): void {
 		$hook = $this->makeHook([]);
 		$sizes = Icons::setCoverSizes($hook);
 
@@ -49,7 +63,10 @@ class CoverSizesTest extends IntegrationTestCase {
 		$this->assertArrayHasKey('small', $sizes);
 	}
 
-	public function testMasterSizeIsCorrect(): void {
+	/**
+     * @return void
+     */
+    public function testMasterSizeIsCorrect(): void {
 		$hook = $this->makeHook([]);
 		$sizes = Icons::setCoverSizes($hook);
 
@@ -59,7 +76,10 @@ class CoverSizesTest extends IntegrationTestCase {
 		$this->assertTrue($sizes['master']['upscale']);
 	}
 
-	public function testLargeMediumSmallSizesAreDescending(): void {
+	/**
+     * @return void
+     */
+    public function testLargeMediumSmallSizesAreDescending(): void {
 		$hook = $this->makeHook([]);
 		$sizes = Icons::setCoverSizes($hook);
 
@@ -69,7 +89,10 @@ class CoverSizesTest extends IntegrationTestCase {
 		$this->assertGreaterThan($sizes['small']['h'], $sizes['medium']['h']);
 	}
 
-	public function testAllNonOriginalSizesAreNotSquareAndNotUpscaledExceptMaster(): void {
+	/**
+     * @return void
+     */
+    public function testAllNonOriginalSizesAreNotSquareAndNotUpscaledExceptMaster(): void {
 		$hook = $this->makeHook([]);
 		$sizes = Icons::setCoverSizes($hook);
 
@@ -79,15 +102,21 @@ class CoverSizesTest extends IntegrationTestCase {
 		}
 	}
 
-	public function testOriginalHasEmptyConfig(): void {
+	/**
+     * @return void
+     */
+    public function testOriginalHasEmptyConfig(): void {
 		$hook = $this->makeHook([]);
 		$sizes = Icons::setCoverSizes($hook);
 		$this->assertSame([], $sizes['original']);
 	}
 
-	public function testSaveCoverCroppingCoordsAssignsAllFour(): void {
+	/**
+     * @return void
+     */
+    public function testSaveCoverCroppingCoordsAssignsAllFour(): void {
 		$entity = new \stdClass();
-		$hook = $this->getMockBuilder(Hook::class)->getMock();
+		$hook = $this->getMockBuilder(Event::class)->disableOriginalConstructor()->getMock();
 		$params = [
 			'entity' => $entity,
 			'x1' => 10,
