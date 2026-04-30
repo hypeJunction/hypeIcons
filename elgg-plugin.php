@@ -7,7 +7,7 @@ use hypeJunction\Icons\Menus;
 return [
 	'plugin' => [
 		'name' => 'hypeIcons',
-		'version' => '2.0.0',
+		'version' => '3.0.0',
 		'description' => 'Interface for uploading and cropping entity icons and covers',
 		'category' => ['icon', 'cover', 'avatar', 'cropper'],
 		'author' => 'Ismayil Khayredinov (info@hypejunction.com)',
