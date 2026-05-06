@@ -15,7 +15,7 @@ if (!$file_input_id) {
 }
 
 if (!is_array($params)) {
-	$params = array();
+	$params = [];
 }
 
 $params['input'] = $file_input_id;

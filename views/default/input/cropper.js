@@ -10,10 +10,12 @@ define(function (require) {
 				var fileInputId = $(element).data('fileInput');
 				$(fileInputId).data('cropperInput', element).off('change').on('change', lib.change);
 			}
+
 			var $img = $('img.cropper-input-image', $(element));
 			if ($img.length === 0) {
 				return;
 			}
+
 			$img.cropper({
 				mode: 3,
 				aspectRatio: $(element).data('ratio'),

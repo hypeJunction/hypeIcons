@@ -9,11 +9,14 @@ use ElggMenuItem;
 use ElggObject;
 use ElggUser;
 
+/**
+ * Registers icon-related menu items
+ */
 class Menus {
 	
 	/**
 	 * Prepare Edit icon menu item
-	 * 
+	 *
 	 * @param ElggEntity $entity Entity
 	 * @return ElggMenuItem|void
 	 */
@@ -27,11 +30,13 @@ class Menus {
 			} else {
 				$label = elgg_echo("icons:$action:icon");
 			}
+
 			if (elgg_is_active_plugin('menus_api')) {
 				$text = $label;
 			} else {
 				$text = elgg_view_icon('picture-o');
 			}
+
 			return ElggMenuItem::factory([
 				'name' => 'edit:icon',
 				'href' => "icons/icon/$entity->guid",
@@ -60,6 +65,7 @@ class Menus {
 			} else {
 				$text = elgg_view_icon('picture-o');
 			}
+
 			return ElggMenuItem::factory([
 				'name' => 'edit:cover',
 				'href' => "icons/cover/$entity->guid",
@@ -75,11 +81,8 @@ class Menus {
 
 	/**
 	 * Setup entity menu
-	 * 
-	 * @param string         $hook   "register"
-	 * @param string         $type   "menu:entity"
-	 * @param ElggMenuItem[] $return Menu
-	 * @param array          $params Hook params
+	 *
+	 * @param \Elgg\Event $event Event
 	 * @return ElggMenuItem[]
 	 */
 	public static function setupEntityMenu(\Elgg\Event $event) {
@@ -91,11 +94,13 @@ class Menus {
 			return;
 		}
 
-		if ($edit_icon = self::prepareEditIconItem($entity)) {
+		$edit_icon = self::prepareEditIconItem($entity);
+		if ($edit_icon) {
 			$return[] = $edit_icon;
 		}
 
-		if ($edit_cover = self::prepareEditCoverItem($entity)) {
+		$edit_cover = self::prepareEditCoverItem($entity);
+		if ($edit_cover) {
 			$return[] = $edit_cover;
 		}
 
@@ -105,10 +110,7 @@ class Menus {
 	/**
 	 * Setup user hover menu
 	 *
-	 * @param string         $hook   "register"
-	 * @param string         $type   "menu:user_hover"
-	 * @param ElggMenuItem[] $return Menu
-	 * @param array          $params Hook params
+	 * @param \Elgg\Event $event Event
 	 * @return ElggMenuItem[]
 	 */
 	public static function setupUserHoverMenu(\Elgg\Event $event) {
@@ -120,14 +122,16 @@ class Menus {
 			return;
 		}
 
-		if ($edit_icon = self::prepareEditIconItem($entity)) {
+		$edit_icon = self::prepareEditIconItem($entity);
+		if ($edit_icon) {
 			$edit_icon->setText($edit_icon->getTooltip());
 			$section = elgg_is_admin_logged_in() ? 'admin' : 'actions';
 			$edit_icon->setSection($section);
 			$return[] = $edit_icon;
 		}
 
-		if ($edit_cover = self::prepareEditCoverItem($entity)) {
+		$edit_cover = self::prepareEditCoverItem($entity);
+		if ($edit_cover) {
 			$edit_cover->setText($edit_cover->getTooltip());
 			$section = elgg_is_admin_logged_in() ? 'admin' : 'actions';
 			$edit_cover->setSection($section);
@@ -138,12 +142,9 @@ class Menus {
 	}
 
 	/**
-	 * Setup user hover menu
+	 * Setup group profile buttons
 	 *
-	 * @param string         $hook   "profile_buttons"
-	 * @param string         $type   "group"
-	 * @param ElggMenuItem[] $return Menu
-	 * @param array          $params Hook params
+	 * @param \Elgg\Event $event Event
 	 * @return ElggMenuItem[]
 	 */
 	public static function setupGroupProfileMenu(\Elgg\Event $event) {
@@ -155,14 +156,16 @@ class Menus {
 			return;
 		}
 
-		if ($edit_icon = self::prepareEditIconItem($entity)) {
+		$edit_icon = self::prepareEditIconItem($entity);
+		if ($edit_icon) {
 			$edit_icon->setText($edit_icon->getTooltip());
 			$edit_icon->setLinkClass('elgg-button elgg-button-action');
 			$edit_icon->setSection($section);
 			$return[] = $edit_icon;
 		}
 
-		if ($edit_cover = self::prepareEditCoverItem($entity)) {
+		$edit_cover = self::prepareEditCoverItem($entity);
+		if ($edit_cover) {
 			$edit_cover->setText($edit_cover->getTooltip());
 			$edit_cover->setLinkClass('elgg-button elgg-button-action');
 			$return[] = $edit_cover;

@@ -2,15 +2,15 @@
 
 namespace hypeJunction\Icons;
 
+/**
+ * Adds cropper integration to file inputs
+ */
 class Cropper {
 
 	/**
 	 * Add cropper class selector to file input
 	 *
-	 * @param string $hook   "view_vars"
-	 * @param string $type   "input/file"
-	 * @param array  $return View vars
-	 * @param array  $params Hook params
+	 * @param \Elgg\Event $event Event
 	 * @return array
 	 */
 	public static function filterFileInputVars(\Elgg\Event $event) {
@@ -25,11 +25,10 @@ class Cropper {
 
 			$id = elgg_extract('id', $return);
 			if (!$id) {
-				$return['id'] = "elgg-file-input-" . base_convert(mt_rand(), 10, 36);
+				$return['id'] = 'elgg-file-input-' . base_convert(mt_rand(), 10, 36);
 			}
 		}
 
 		return $return;
 	}
-
 }

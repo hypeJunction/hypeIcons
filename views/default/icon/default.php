@@ -34,12 +34,12 @@ if (isset($vars['href'])) {
 	$href = $vars['href'];
 }
 
-$img_class = (array) elgg_extract('img_class', $vars, array());
+$img_class = (array) elgg_extract('img_class', $vars, []);
 $img_class[] = 'elgg-avatar-image';
 
 $title = elgg_extract('title', $vars, $entity->getDisplayName());
 
-$img = elgg_view('output/img', array(
+$img = elgg_view('output/img', [
 	'src' => $entity->getIconURL([
 		'size' => $size,
 		'type' => $icon_type
@@ -48,22 +48,22 @@ $img = elgg_view('output/img', array(
 	'width' => $width,
 	'height' => $height,
 	'class' => $img_class,
-		));
+]);
 
 if ($href && elgg_extract('use_link', $vars, true)) {
-	$link_class = (array) elgg_extract('link_class', $vars, array());
+	$link_class = (array) elgg_extract('link_class', $vars, []);
 	$link_class[] = 'elgg-tooltip';
-	$img = elgg_view('output/url', array(
+	$img = elgg_view('output/url', [
 		'is_trusted' => true,
 		'class' => $link_class,
 		'text' => $img,
 		'href' => $href,
 		'title' => $title,
-	));
+	]);
 }
 
-$wrapper_class = (array) elgg_extract('class', $vars, array());
-$wrapper_class[] = "elgg-avatar";
+$wrapper_class = (array) elgg_extract('class', $vars, []);
+$wrapper_class[] = 'elgg-avatar';
 $wrapper_class[] = "elgg-avatar-$size";
 $type = $entity->getType();
 $wrapper_class[] = "elgg-avatar-$type";
@@ -71,12 +71,13 @@ $subtype = $entity->getSubtype();
 if ($subtype) {
 	$wrapper_class[] = "elgg-avatar-$type-$subtype";
 }
+
 if ($icon_type !== 'icon') {
 	$wrapper_class[] = "elgg-avatar-{$icon_type}";
 }
 
 $corners = elgg_extract('corners', $vars);
-if (!isset($corners) && in_array($size, array('topbar', 'tiny', 'small', 'medium'))) {
+if (!isset($corners) && in_array($size, ['topbar', 'tiny', 'small', 'medium'])) {
 	$corners = elgg_get_plugin_setting('corners', 'ui_icons');
 }
 
@@ -87,4 +88,4 @@ if ($corners) {
 $hover = elgg_extract('hover', $vars);
 echo elgg_format_element('div', [
 	'class' => $wrapper_class,
-		], $img . $hover);
+], $img . $hover);

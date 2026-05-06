@@ -71,12 +71,13 @@ $input = elgg_extract('input', $vars);
 if ($input) {
 	$file_input_id = "#{$input}";
 }
+
 echo elgg_format_element('div', [
 	'id' => $id,
 	'class' => 'cropper-input',
 	'data-file-input' => $file_input_id,
 	'data-ratio' => $ratio,
-		], $body);
+], $body);
 ?>
 <script>
 	require(['input/cropper'], function(input) {

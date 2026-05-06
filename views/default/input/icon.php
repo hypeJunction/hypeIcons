@@ -13,7 +13,7 @@ if (!isset($vars['name'])) {
 	$vars['name'] = 'icon';
 }
 
-$vars['accept'] = "image/*";
+$vars['accept'] = 'image/*';
 
 if ($entity instanceof ElggEntity) {
 	$icon_type = elgg_extract('icon_type', $vars, 'icon');

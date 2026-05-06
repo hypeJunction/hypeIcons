@@ -7,15 +7,15 @@ use ElggFile;
 use ElggGroup;
 use ElggUser;
 
+/**
+ * Resolves icon URLs and default icon fallbacks
+ */
 class Icons {
 
 	/**
 	 * Replace default icons with SVG
 	 *
-	 * @param string $hook   "entity:icon:url"|"entity:cover:url"
-	 * @param string $type   "all"
-	 * @param string $return URL
-	 * @param array  $params Hook params
+	 * @param \Elgg\Event $event Event
 	 * @return string
 	 */
 	public static function setDefaultIcon(\Elgg\Event $event) {
@@ -46,7 +46,7 @@ class Icons {
 		}
 
 		$replace_default = $icon_type == 'cover' || elgg_get_plugin_setting('replace_default_icons', 'hypeicons');
-		if (!$event->getValue() || !is_string($event->getValue()) || ($replace_default && $core_path && 0 === strpos($event->getValue(), $core_path))) {
+		if (!$event->getValue() || !is_string($event->getValue()) || ($replace_default && $core_path && strpos($event->getValue(), $core_path) === 0)) {
 			$type = $entity->getType();
 			$subtype = $entity->getSubtype();
 			$views = array_filter([
@@ -67,10 +67,7 @@ class Icons {
 	/**
 	 * Replaces file type icons
 	 *
-	 * @param string $hook   "entity:icon:url"
-	 * @param string $type   "object"
-	 * @param string $return Icon URL
-	 * @param array  $params Hook params
+	 * @param \Elgg\Event $event Event
 	 * @return string
 	 */
 	public static function setDefaultFileIcons(\Elgg\Event $event) {
@@ -86,12 +83,12 @@ class Icons {
 			return;
 		}
 
-		$mimetype = $entity->mimetype ? : $entity->detectMimeType();
+		$mimetype = $entity->mimetype ?: $entity->detectMimeType();
 		if (!$mimetype) {
 			$mimetype = 'application/otcet-stream';
 		}
 
-		if (0 === strpos($mimetype, 'image/') && $entity->icontime && $event->getValue()) {
+		if (strpos($mimetype, 'image/') === 0 && $entity->icontime && $event->getValue()) {
 			return $event->getValue();
 		}
 
@@ -100,7 +97,7 @@ class Icons {
 
 		$view = "icon/object/file/{$filetype}.svg";
 		if (!elgg_view_exists($view)) {
-			$view = "icon/default.svg";
+			$view = 'icon/default.svg';
 		}
 
 		return elgg_get_simplecache_url($view);
@@ -115,100 +112,99 @@ class Icons {
 	 */
 	public static function mapMimeToIconType($mimetype = 'application/otcet-stream', $extension = '') {
 		switch ($mimetype) {
-			case 'application/pdf' :
-			case 'application/vnd.pdf' :
-			case 'application/x-pdf' :
+			case 'application/pdf':
+			case 'application/vnd.pdf':
+			case 'application/x-pdf':
 				return 'pdf';
 
-			case 'application/ogg' :
+			case 'application/ogg':
 				return 'audio';
 
-			case 'text/plain' :
-			case 'text/richtext' :
+			case 'text/plain':
+			case 'text/richtext':
 				return 'text';
 
 			case 'text/html':
-			case 'application/rtf' :
-			case 'application/vnd.oasis.opendocument.text' :
-			case 'application/wordperfect' :
-			case 'application/vnd.google-apps.document' :
+			case 'application/rtf':
+			case 'application/vnd.oasis.opendocument.text':
+			case 'application/wordperfect':
+			case 'application/vnd.google-apps.document':
 				return 'document';
 
 
-			case 'application/vnd.oasis.opendocument.presentation' :
-			case 'application/vnd.google-apps.presentation' :
+			case 'application/vnd.oasis.opendocument.presentation':
+			case 'application/vnd.google-apps.presentation':
 				return 'presentation';
 
 			case 'text/csv':
-			case 'text/x-markdown' :
-			case 'application/csv' :
-			case 'application/vnd.oasis.opendocument.spreadsheet' :
-			case 'application/vnd.google-apps.spreadsheet' :
+			case 'text/x-markdown':
+			case 'application/csv':
+			case 'application/vnd.oasis.opendocument.spreadsheet':
+			case 'application/vnd.google-apps.spreadsheet':
 				return 'spreadsheet';
 
 
-			case 'image/vnd.adobe.photoshop' :
+			case 'image/vnd.adobe.photoshop':
 			case 'application/eps':
-			case 'application/vnd.oasis.opendocument.graphics' :
+			case 'application/vnd.oasis.opendocument.graphics':
 			case 'image/vnd.adobe.premiere':
-			case 'application/illustrator' :
-			case 'application/vnd.google-apps.drawing' :
+			case 'application/illustrator':
+			case 'application/vnd.google-apps.drawing':
 				return 'drawing';
 
-			case 'application/vnd.oasis.opendocument.image' :
+			case 'application/vnd.oasis.opendocument.image':
 				return 'image';
 
-			case 'application/xhtml+xml' :
-			case 'text/xml' :
-			case 'application/json' :
-			case 'text/javascript' :
-			case 'application/javascript' :
-			case 'application/x-javascript' :
-			case 'application/rss+xml' :
-			case 'text/css' :
-			case 'text/php' :
-			case 'text/x-php' :
-			case 'application/php' :
-			case 'application/x-php' :
+			case 'application/xhtml+xml':
+			case 'text/xml':
+			case 'application/json':
+			case 'text/javascript':
+			case 'application/javascript':
+			case 'application/x-javascript':
+			case 'application/rss+xml':
+			case 'text/css':
+			case 'text/php':
+			case 'text/x-php':
+			case 'application/php':
+			case 'application/x-php':
 				return 'code';
 
-			case 'application/x-zip' :
-			case 'application/x-gzip' :
-			case 'application/x-gtar' :
-			case 'application/x-tar' :
-			case 'application/x-rar-compressed' :
-			case 'application/x-stuffit' :
+			case 'application/x-zip':
+			case 'application/x-gzip':
+			case 'application/x-gtar':
+			case 'application/x-tar':
+			case 'application/x-rar-compressed':
+			case 'application/x-stuffit':
 				return 'archive';
 
-			case 'application/vnd.google-earth.kml+xml' :
-			case 'application/vnd.google-earth.kmz' :
-			case 'application/gml+xml' :
-			case 'application/vnd.geo+json' :
-			case 'application/vnd.google-apps.map' :
+			case 'application/vnd.google-earth.kml+xml':
+			case 'application/vnd.google-earth.kmz':
+			case 'application/gml+xml':
+			case 'application/vnd.geo+json':
+			case 'application/vnd.google-apps.map':
 				return 'map';
 
-			case 'text/v-card' :
-			case 'text/directory' :
-			case 'text/vcard' :
+			case 'text/v-card':
+			case 'text/directory':
+			case 'text/vcard':
 				return 'vcard';
 
-			case 'text/calendar' :
-			case 'application/calendar' :
-			case 'application/calendar+json' :
-			case 'application/calendar+xml' :
+			case 'text/calendar':
+			case 'application/calendar':
+			case 'application/calendar+json':
+			case 'application/calendar+xml':
 				return 'calendar';
 
-			case 'application/zip' :
+			case 'application/zip':
 			case 'application/vnd.ms-office':
-			case 'application/msword' :
-			case 'application/excel' :
-			case 'application/vnd.ms-excel' :
-			case 'application/powerpoint' :
-			case 'application/vnd.ms-powerpoint' :
-			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' :
-			case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' :
-			case 'application/vnd.openxmlformats-officedocument.presentationml.presentation' :
-
+			case 'application/msword':
+			case 'application/excel':
+			case 'application/vnd.ms-excel':
+			case 'application/powerpoint':
+			case 'application/vnd.ms-powerpoint':
+			case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+			case 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet':
+			case 'application/vnd.openxmlformats-officedocument.presentationml.presentation':
 				switch ($extension) {
 					case 'docx':
 					case 'doc':
@@ -219,27 +215,28 @@ class Icons {
 						return 'excel';
 
 					case 'pptx':
-					case 'ppt' :
-					case 'pot' :
+					case 'ppt':
+					case 'pot':
 						return 'powerpoint';
 
-					case 'zip' :
-					case 'war' :
-					case 'jar' :
-					case 'ear' :
+					case 'zip':
+					case 'war':
+					case 'jar':
+					case 'ear':
 						return 'archive';
 
-					default :
+					default:
 						return 'default';
 				}
 				break;
 
-			default :
+			default:
 				switch ($extension) {
-					case 'bin' :
-					case 'exe' :
+					case 'bin':
+					case 'exe':
 						return 'application';
 				}
+
 				if (preg_match('~^(audio|image|video)/~', $mimetype, $m)) {
 					return $m[1];
 				} else {
@@ -251,11 +248,8 @@ class Icons {
 
 	/**
 	 * Set cover image sizes
-	 * 
-	 * @param string $hook   "entity:cover:sizes"
-	 * @param string $type   "all"
-	 * @param array  $return Sizes
-	 * @param array  $params Hook params
+	 *
+	 * @param \Elgg\Event $event Event
 	 * @return array
 	 */
 	public static function setCoverSizes(\Elgg\Event $event) {
@@ -295,10 +289,7 @@ class Icons {
 	/**
 	 * Save cover cropping coordinates
 	 *
-	 * @param string $hook   "entity:cover:saved"
-	 * @param string $type   "all"
-	 * @param void   $return Null
-	 * @param array  $params Hook params
+	 * @param \Elgg\Event $event Event
 	 * @return void
 	 */
 	public static function saveCoverCroppingCoords(\Elgg\Event $event) {

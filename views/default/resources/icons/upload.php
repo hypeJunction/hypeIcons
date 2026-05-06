@@ -40,7 +40,7 @@ $vars['entity'] = $entity;
 $content = elgg_view_form('icons/upload', [
 	'enctype' => 'multipart/form-data',
 	'validate' => true,
-		], $vars);
+], $vars);
 
 if (elgg_is_xhr()) {
 	echo $content;
@@ -55,6 +55,6 @@ $body = elgg_view_layout('default', [
 		'entity' => $entity,
 		'icon_type' => $icon_type,
 	]),
-		]);
+]);
 
 echo elgg_view_page($title, $body);

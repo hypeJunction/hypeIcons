@@ -21,7 +21,7 @@ if (!($user instanceof ElggUser)) {
 }
 
 $name = $user->getDisplayName();
-$class = (array) elgg_extract('class', $vars, array());
+$class = (array) elgg_extract('class', $vars, []);
 if ($user->isBanned()) {
 	$class[] = 'elgg-state-banned';
 	$name .= ' (' . elgg_echo('banned') . ')';
@@ -34,15 +34,15 @@ $use_hover = elgg_extract('use_hover', $vars, true);
 $show_menu = $use_hover && (elgg_is_admin_logged_in() || !$user->isBanned());
 
 if ($show_menu) {
-	$params = array(
+	$params = [
 		'entity' => $user,
 		'username' => $user->username,
 		'name' => $name,
-	);
+	];
 	$vars['hover'] = elgg_view_icon('ellipsis-h', [
 		'class' => 'elgg-icon-hover-menu'
 	]);
-	$vars['hover'] .= elgg_view('navigation/menu/user_hover/placeholder', array('entity' => $user));
+	$vars['hover'] .= elgg_view('navigation/menu/user_hover/placeholder', ['entity' => $user]);
 }
 
 echo elgg_view('icon/default', $vars);

@@ -47,6 +47,6 @@ $body = elgg_view_layout('default', [
 		'entity' => $entity,
 		'icon_type' => $icon_type,
 	]),
-		]);
+]);
 
 echo elgg_view_page($title, $body);

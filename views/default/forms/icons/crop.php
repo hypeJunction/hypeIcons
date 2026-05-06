@@ -25,8 +25,8 @@ if ($entity instanceof ElggFile && $entity->simpletype == 'image') {
 
 if (!$size) {
 	echo elgg_format_element('p', [
-			'class' => 'elgg-no-results',
-		], elgg_echo('icon:crop:no_image'));
+		'class' => 'elgg-no-results',
+	], elgg_echo('icon:crop:no_image'));
 		return;
 }
 

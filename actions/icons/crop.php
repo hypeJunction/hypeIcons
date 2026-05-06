@@ -24,6 +24,7 @@ if ($entity instanceof ElggFile && $size == 'self') {
 	if (!$entity->hasIcon($size, $icon_type)) {
 		return elgg_error_response(elgg_echo("icons:$icon_type:crop:fail"));
 	}
+
 	$file = $entity->getIcon($size, $icon_type);
 }
 
@@ -32,13 +33,13 @@ if (!$entity->saveIconFromElggFile($file, $icon_type, $coords)) {
 }
 
 $type = $entity->type;
-$subtype = $entity->getSubtype() ? : 'default';
+$subtype = $entity->getSubtype() ?: 'default';
 
 $event = $type == 'user' ? 'profileiconupdate' : "update:$icon_type";
 
 if (elgg_trigger_event($event, $entity->type, $entity)) {
 	if ($type == 'user') {
-		$view = "river/user/default/profileiconupdate";
+		$view = 'river/user/default/profileiconupdate';
 	} else {
 		$view = "river/$type/$subtype/$icon_type";
 	}
@@ -48,12 +49,12 @@ if (elgg_trigger_event($event, $entity->type, $entity)) {
 		'view' => $view
 	]);
 
-	elgg_create_river_item(array(
+	elgg_create_river_item([
 		'view' => $view,
 		'action_type' => 'update',
 		'subject_guid' => elgg_get_logged_in_user_guid(),
 		'object_guid' => $entity->guid,
-	));
+	]);
 }
 
 return elgg_ok_response('', elgg_echo("icons:$icon_type:crop:success"), REFERER);

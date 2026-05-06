@@ -4,34 +4,34 @@ $entity = elgg_extract('entity', $vars);
 ob_start();
 echo elgg_view_input('select', [
 	'name' => 'params[icon_corners]',
-	'value' => $entity->icon_corners ? : 'rounded',
-	'options_values' => array(
+	'value' => $entity->icon_corners ?: 'rounded',
+	'options_values' => [
 		'square' => elgg_echo('interface:icons:corners:square'),
 		'rounded' => elgg_echo('interface:icons:corners:rounded'),
 		'circle' => elgg_echo('interface:icons:corners:circle'),
-	),
+	],
 	'label' => elgg_echo('interface:icons:corners'),
 	'help' => elgg_echo('interface:icons:corners:help'),
 ]);
 
 echo elgg_view_input('select', [
 	'name' => 'params[replace_default_icons]',
-	'value' => $entity->replace_default_icons ? : false,
-	'options_values' => array(
+	'value' => $entity->replace_default_icons ?: false,
+	'options_values' => [
 		0 => elgg_echo('option:no'),
 		1 => elgg_echo('option:yes'),
-	),
+	],
 	'label' => elgg_echo('interface:icons:replace_default_icons'),
 	'label' => elgg_echo('interface:icons:replace_default_icons:help'),
 ]);
 
 echo elgg_view_input('select', [
 	'name' => 'params[replace_filetype_icons]',
-	'value' => $entity->replace_filetype_icons ? : false,
-	'options_values' => array(
+	'value' => $entity->replace_filetype_icons ?: false,
+	'options_values' => [
 		0 => elgg_echo('option:no'),
 		1 => elgg_echo('option:yes'),
-	),
+	],
 	'label' => elgg_echo('interface:icons:replace_filetype_icons'),
 	'label' => elgg_echo('interface:icons:replace_filetype_icons:help'),
 ]);
@@ -49,6 +49,7 @@ foreach ($registered_types as $type => $subtypes) {
 	if (empty($subtypes)) {
 		continue;
 	}
+
 	foreach ($subtypes as $subtype) {
 		$options["$type:$subtype"] = elgg_echo("item:$type:$subtype");
 	}

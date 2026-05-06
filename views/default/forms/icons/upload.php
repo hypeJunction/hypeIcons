@@ -36,7 +36,7 @@ echo elgg_view_input('icon', [
 	if ($entity->hasIcon('small', $icon_type)) {
 		echo elgg_view('output/url', [
 			'text' => elgg_echo('icons:delete'),
-			'href' => elgg_http_add_url_query_elements("action/icons/remove", [
+			'href' => elgg_http_add_url_query_elements('action/icons/remove', [
 				'guid' => $entity->guid,
 				'icon_type' => $icon_type,
 			]),
