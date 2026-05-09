@@ -2,7 +2,7 @@ hypeIcons
 =========
 Interface for uploading and cropping entity icons and covers
 
-![Elgg 2.2](https://img.shields.io/badge/Elgg-2.2-orange.svg?style=flat-square)
+![Elgg 5.x](https://img.shields.io/badge/Elgg-5.x-orange.svg?style=flat-square)
 
 ## Features
 
@@ -81,7 +81,6 @@ $coords = get_input('cover_crop_coords');
 In your action, be sure to use the same image source for cropping. If you passed master image source to the file input,
 you will need to implement the logic for both new file upload and master image, as cropping coordinates may change even without new
 file upload.
-
 
 ### Displaying a cover image
 
