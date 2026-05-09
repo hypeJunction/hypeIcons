@@ -42,7 +42,7 @@ echo elgg_view_input('icon', [
 			]),
 			'is_action' => true,
 			'confirm' => true,
-			'class' => 'elgg-button elgg-button-delete float-alt',
+			'class' => 'elgg-button float-alt',
 		]);
 	}
 	?>
