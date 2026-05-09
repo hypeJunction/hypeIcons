@@ -2,7 +2,7 @@
 	"name": "hypejunction/hypeicons",
 	"type": "elgg-plugin",
 	"description": "Interface for uploading and cropping entity icons and covers",
-	"homepage": "http://hypejunction.com",
+	"homepage": "https://github.com/hypeJunction/hypeIcons",
 	"keywords": [
 		"elgg",
 		"plugin",
@@ -10,13 +10,12 @@
 		"cover",
 		"avatar",
 		"cropper"
-		
 	],
 	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
-			"email": "info@hypejunction.com"
+			"email": "ismayil.khayredinov@gmail.com"
 		}
 	],
 	"extra": {
