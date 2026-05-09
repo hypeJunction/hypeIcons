@@ -1,14 +1,19 @@
+:root {
+	--icons-cropper-max-width: 600px;
+	--icons-cropper-margin: 10px auto;
+}
+
 .cropper-input-image-container {
-	max-width: 600px;
+	max-width: var(--icons-cropper-max-width);
 }
 
 .cropper-input-image {
 	width: 100%;
 	height: auto;
 	display: inline-block;
-	max-width: 600px;
+	max-width: var(--icons-cropper-max-width);
 }
 
 .file-input-has-cropper + .cropper-input {
-	margin: 10px auto;
+	margin: var(--icons-cropper-margin);
 }
