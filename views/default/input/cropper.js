@@ -1,10 +1,8 @@
-define(function (require) {
+import $ from 'jquery';
+import spinner from 'elgg/spinner';
+import 'cropper';
 
-	var $ = require('jquery');
-	var spinner = require('elgg/spinner');
-	require('cropper');
-
-	var lib = {
+var lib = {
 		init: function (element) {
 			if ($(element).is('[data-file-input]')) {
 				var fileInputId = $(element).data('fileInput');
@@ -56,6 +54,4 @@ define(function (require) {
 		}
 	};
 
-	return lib;
-
-});
+export default lib;

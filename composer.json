@@ -26,11 +26,11 @@
 	"require": {
 		"php": ">=8.2",
 		"composer/installers": "^2.0",
-		"elgg/elgg": "^5.0",
+		"elgg/elgg": "~6.1.0",
 		"bower-asset/cropper": "~2.1"
 	},
 	"conflict": {
-		"elgg/elgg": "<5.0"
+		"elgg/elgg": "<6.0"
 	},
 	"autoload": {
 		"psr-4": {

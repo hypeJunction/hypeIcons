@@ -88,7 +88,7 @@ class Icons {
 			$mimetype = 'application/otcet-stream';
 		}
 
-		if (strpos($mimetype, 'image/') === 0 && $entity->icontime && $event->getValue()) {
+		if (strpos($mimetype, 'image/') === 0 && $entity->getIconLastChange() && $event->getValue()) {
 			return $event->getValue();
 		}
 

@@ -111,15 +111,15 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$icontime = time();
 		$file = $this->getMockBuilder(\ElggFile::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore', '__get'])
+			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore', '__get', 'getIconLastChange'])
 			->getMock();
 		$file->method('getSubtype')->willReturn('file');
 		$file->method('getMimeType')->willReturn('image/png');
 		$file->method('getFilenameOnFilestore')->willReturn('/tmp/a.png');
+		$file->method('getIconLastChange')->willReturn($icontime);
 		$file->method('__get')->willReturnCallback(function ($name) use ($icontime) {
 			return match ($name) {
 				'mimetype' => 'image/png',
-				'icontime' => $icontime,
 				default => null,
 			};
 		});
@@ -144,15 +144,15 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 
 		$file = $this->getMockBuilder(\ElggFile::class)
 			->disableOriginalConstructor()
-			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore', '__get'])
+			->onlyMethods(['getSubtype', 'getMimeType', 'getFilenameOnFilestore', '__get', 'getIconLastChange'])
 			->getMock();
 		$file->method('getSubtype')->willReturn('file');
 		$file->method('getMimeType')->willReturn('application/pdf');
 		$file->method('getFilenameOnFilestore')->willReturn('/tmp/a.pdf');
+		$file->method('getIconLastChange')->willReturn(null);
 		$file->method('__get')->willReturnCallback(function ($name) {
 			return match ($name) {
 				'mimetype' => 'application/pdf',
-				'icontime' => null,
 				default => null,
 			};
 		});
