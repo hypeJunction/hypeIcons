@@ -2,7 +2,7 @@ hypeIcons
 =========
 Interface for uploading and cropping entity icons and covers
 
-![Elgg 5.x](https://img.shields.io/badge/Elgg-5.x-orange.svg?style=flat-square)
+![Elgg 7.x](https://img.shields.io/badge/Elgg-7.x-orange.svg?style=flat-square)
 
 ## Features
 
@@ -99,3 +99,9 @@ echo elgg_view_layout('one_sidebar', [
    'title' => 'Page with cover',
    'content' => 'Page content',
 ]);
+
+## Compatibility
+
+| Plugin version | Elgg version |
+|---|---|
+| current | 7.x |
