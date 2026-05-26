@@ -24,17 +24,17 @@ class Menus {
 		if ($entity->canEdit() && Settings::hasIconSupport($entity, 'icon')) {
 			$action = $entity->hasIcon('small', 'icon') ? 'edit' : 'add';
 			if ($entity instanceof ElggUser) {
-				$label = elgg_echo("icons:$action:avatar");
+				$label = \elgg_echo("icons:$action:avatar");
 			} else if ($entity instanceof ElggFile) {
-				$label = elgg_echo("icons:$action:thumb");
+				$label = \elgg_echo("icons:$action:thumb");
 			} else {
-				$label = elgg_echo("icons:$action:icon");
+				$label = \elgg_echo("icons:$action:icon");
 			}
 
-			if (elgg_is_active_plugin('menus_api')) {
+			if (\elgg_is_active_plugin('menus_api')) {
 				$text = $label;
 			} else {
-				$text = elgg_view_icon('picture-o');
+				$text = \elgg_view_icon('picture-o');
 			}
 
 			return ElggMenuItem::factory([
@@ -59,11 +59,11 @@ class Menus {
 	public static function prepareEditCoverItem(\ElggEntity $entity) {
 		if ($entity->canEdit() && Settings::hasIconSupport($entity, 'cover')) {
 			$action = $entity->hasIcon('small', 'cover') ? 'edit' : 'add';
-			$label = elgg_echo("icons:$action:cover");
-			if (elgg_is_active_plugin('menus_api')) {
+			$label = \elgg_echo("icons:$action:cover");
+			if (\elgg_is_active_plugin('menus_api')) {
 				$text = $label;
 			} else {
-				$text = elgg_view_icon('picture-o');
+				$text = \elgg_view_icon('picture-o');
 			}
 
 			return ElggMenuItem::factory([
@@ -125,7 +125,7 @@ class Menus {
 		$edit_icon = self::prepareEditIconItem($entity);
 		if ($edit_icon) {
 			$edit_icon->setText($edit_icon->getTooltip());
-			$section = elgg_is_admin_logged_in() ? 'admin' : 'actions';
+			$section = \elgg_is_admin_logged_in() ? 'admin' : 'actions';
 			$edit_icon->setSection($section);
 			$return[] = $edit_icon;
 		}
@@ -133,7 +133,7 @@ class Menus {
 		$edit_cover = self::prepareEditCoverItem($entity);
 		if ($edit_cover) {
 			$edit_cover->setText($edit_cover->getTooltip());
-			$section = elgg_is_admin_logged_in() ? 'admin' : 'actions';
+			$section = \elgg_is_admin_logged_in() ? 'admin' : 'actions';
 			$edit_cover->setSection($section);
 			$return[] = $edit_cover;
 		}

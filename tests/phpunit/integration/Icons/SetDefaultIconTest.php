@@ -84,7 +84,7 @@ class SetDefaultIconTest extends IntegrationTestCase {
      * @return void
      */
     public function testExistingNonCorePathValueShortCircuitsWhenNoReplaceSetting(): void {
-		$plugin = elgg_get_plugin_from_id('hypeicons');
+		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
