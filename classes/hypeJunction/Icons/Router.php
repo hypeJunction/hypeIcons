@@ -16,7 +16,7 @@ class Router {
 		$guid = array_shift($segments);
 		$tab = array_shift($segments) ? : 'upload';
 
-		echo elgg_view_resource("icons/$tab", [
+		echo \elgg_view_resource("icons/$tab", [
 			'guid' => $guid,
 			'icon_type' => $icon_type,
 		]);
