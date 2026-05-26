@@ -46,7 +46,7 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
      * @return void
      */
     public function testReturnsVoidWhenSettingDisabled(): void {
-		$plugin = elgg_get_plugin_from_id('hypeicons');
+		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
@@ -64,7 +64,7 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
      * @return void
      */
     public function testReturnsVoidWhenEntityIsNotFile(): void {
-		$plugin = elgg_get_plugin_from_id('hypeicons');
+		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
@@ -82,7 +82,7 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
      * @return void
      */
     public function testReturnsVoidWhenFileSubtypeIsNotFile(): void {
-		$plugin = elgg_get_plugin_from_id('hypeicons');
+		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
@@ -102,7 +102,7 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
      * @return void
      */
     public function testImageMimeWithIcontimePassesThroughExistingUrl(): void {
-		$plugin = elgg_get_plugin_from_id('hypeicons');
+		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}
@@ -136,7 +136,7 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
      * @return void
      */
     public function testPdfFileReturnsSimplecacheUrlForPdfIcon(): void {
-		$plugin = elgg_get_plugin_from_id('hypeicons');
+		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
 		}

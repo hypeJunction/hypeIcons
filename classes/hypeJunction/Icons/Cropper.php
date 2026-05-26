@@ -17,13 +17,13 @@ class Cropper {
 		$return = $event->getValue();
 
 
-		$cropper_params = elgg_extract('use_cropper', $return);
+		$cropper_params = \elgg_extract('use_cropper', $return);
 		if ($cropper_params) {
-			$class = (array) elgg_extract('class', $return, []);
+			$class = (array) \elgg_extract('class', $return, []);
 			$class[] = 'file-input-has-cropper';
 			$return['class'] = implode(' ', $class);
 
-			$id = elgg_extract('id', $return);
+			$id = \elgg_extract('id', $return);
 			if (!$id) {
 				$return['id'] = 'elgg-file-input-' . base_convert(mt_rand(), 10, 36);
 			}

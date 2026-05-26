@@ -31,21 +31,21 @@ class Icons {
 		$icon_type = $event->getParam('type', 'icon');
 
 		if (!$event->getValue() && Settings::hasIconSupport($entity, $icon_type) && $entity->hasIcon($size, $icon_type)) {
-			return elgg_get_inline_url($entity->getIcon($size, $icon_type));
+			return \elgg_get_inline_url($entity->getIcon($size, $icon_type));
 		}
 
 		$core_path = false;
 		if ($icon_type == 'icon') {
 			if ($entity instanceof ElggUser) {
-				$core_path = elgg_get_simplecache_url('icons/user/');
+				$core_path = \elgg_get_simplecache_url('icons/user/');
 			} else if ($entity instanceof ElggGroup) {
-				$core_path = elgg_get_simplecache_url('groups/default');
+				$core_path = \elgg_get_simplecache_url('groups/default');
 			} else {
-				$core_path = elgg_get_simplecache_url('icons/default/');
+				$core_path = \elgg_get_simplecache_url('icons/default/');
 			}
 		}
 
-		$replace_default = $icon_type == 'cover' || elgg_get_plugin_setting('replace_default_icons', 'hypeicons');
+		$replace_default = $icon_type == 'cover' || \elgg_get_plugin_setting('replace_default_icons', 'hypeicons');
 		if (!$event->getValue() || !is_string($event->getValue()) || ($replace_default && $core_path && strpos($event->getValue(), $core_path) === 0)) {
 			$type = $entity->getType();
 			$subtype = $entity->getSubtype();
@@ -56,8 +56,8 @@ class Icons {
 			]);
 			foreach ($views as $view) {
 				foreach (['svg', 'png', 'gif', 'jpg'] as $ext) {
-					if (elgg_view_exists("$view.$ext")) {
-						return elgg_get_simplecache_url("$view.$ext");
+					if (\elgg_view_exists("$view.$ext")) {
+						return \elgg_get_simplecache_url("$view.$ext");
 					}
 				}
 			}
@@ -72,7 +72,7 @@ class Icons {
 	 */
 	public static function setDefaultFileIcons(\Elgg\Event $event) {
 
-		if (!elgg_get_plugin_setting('replace_filetype_icons', 'hypeicons')) {
+		if (!\elgg_get_plugin_setting('replace_filetype_icons', 'hypeicons')) {
 			return;
 		}
 		
@@ -96,11 +96,11 @@ class Icons {
 		$filetype = self::mapMimeToIconType($mimetype, $extension);
 
 		$view = "icon/object/file/{$filetype}.svg";
-		if (!elgg_view_exists($view)) {
+		if (!\elgg_view_exists($view)) {
 			$view = 'icon/default.svg';
 		}
 
-		return elgg_get_simplecache_url($view);
+		return \elgg_get_simplecache_url($view);
 	}
 
 	/**

@@ -21,6 +21,6 @@ class Settings {
 			return true;
 		}
 
-		return (bool) elgg_get_plugin_setting("{$type}:{$entity->type}:{$entity->getSubtype()}", 'hypeicons');
+		return (bool) \elgg_get_plugin_setting("{$type}:{$entity->type}:{$entity->getSubtype()}", 'hypeicons');
 	}
 }
