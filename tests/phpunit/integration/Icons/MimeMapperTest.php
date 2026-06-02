@@ -19,11 +19,17 @@ class MimeMapperTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return '';
 	}
 
-	public function mimeCases(): array {
+	/**
+     * @return array
+     */
+    public function mimeCases(): array {
 		return [
 			['application/pdf', '', 'pdf'],
 			['application/x-pdf', '', 'pdf'],
@@ -60,48 +66,75 @@ class MimeMapperTest extends IntegrationTestCase {
 		$this->assertEquals($expected, Icons::mapMimeToIconType($mime, $ext));
 	}
 
-	public function testOfficeZipWordExtension(): void {
+	/**
+     * @return void
+     */
+    public function testOfficeZipWordExtension(): void {
 		$this->assertEquals('word', Icons::mapMimeToIconType('application/msword', 'doc'));
 		$this->assertEquals('word', Icons::mapMimeToIconType('application/msword', 'docx'));
 	}
 
-	public function testOfficeZipExcelExtension(): void {
+	/**
+     * @return void
+     */
+    public function testOfficeZipExcelExtension(): void {
 		$this->assertEquals('excel', Icons::mapMimeToIconType('application/vnd.ms-excel', 'xls'));
 		$this->assertEquals('excel', Icons::mapMimeToIconType('application/vnd.ms-excel', 'xlsx'));
 	}
 
-	public function testOfficeZipPowerpointExtension(): void {
+	/**
+     * @return void
+     */
+    public function testOfficeZipPowerpointExtension(): void {
 		$this->assertEquals('powerpoint', Icons::mapMimeToIconType('application/vnd.ms-powerpoint', 'ppt'));
 		$this->assertEquals('powerpoint', Icons::mapMimeToIconType('application/vnd.ms-powerpoint', 'pptx'));
 		$this->assertEquals('powerpoint', Icons::mapMimeToIconType('application/vnd.ms-powerpoint', 'pot'));
 	}
 
-	public function testOfficeZipArchiveExtension(): void {
+	/**
+     * @return void
+     */
+    public function testOfficeZipArchiveExtension(): void {
 		$this->assertEquals('archive', Icons::mapMimeToIconType('application/zip', 'zip'));
 		$this->assertEquals('archive', Icons::mapMimeToIconType('application/zip', 'jar'));
 		$this->assertEquals('archive', Icons::mapMimeToIconType('application/zip', 'war'));
 	}
 
-	public function testOfficeZipUnknownExtensionDefaults(): void {
+	/**
+     * @return void
+     */
+    public function testOfficeZipUnknownExtensionDefaults(): void {
 		$this->assertEquals('default', Icons::mapMimeToIconType('application/zip', 'xyz'));
 	}
 
-	public function testBinaryExtensionMapsToApplication(): void {
+	/**
+     * @return void
+     */
+    public function testBinaryExtensionMapsToApplication(): void {
 		$this->assertEquals('application', Icons::mapMimeToIconType('application/octet-stream', 'bin'));
 		$this->assertEquals('application', Icons::mapMimeToIconType('application/octet-stream', 'exe'));
 	}
 
-	public function testImageAudioVideoMimePrefix(): void {
+	/**
+     * @return void
+     */
+    public function testImageAudioVideoMimePrefix(): void {
 		$this->assertEquals('image', Icons::mapMimeToIconType('image/png', ''));
 		$this->assertEquals('audio', Icons::mapMimeToIconType('audio/mpeg', ''));
 		$this->assertEquals('video', Icons::mapMimeToIconType('video/mp4', ''));
 	}
 
-	public function testUnknownMimeAndExtensionReturnsDefault(): void {
+	/**
+     * @return void
+     */
+    public function testUnknownMimeAndExtensionReturnsDefault(): void {
 		$this->assertEquals('default', Icons::mapMimeToIconType('application/x-wat', 'foo'));
 	}
 
-	public function testDefaultArguments(): void {
+	/**
+     * @return void
+     */
+    public function testDefaultArguments(): void {
 		// No args: application/otcet-stream [sic] + empty ext -> default
 		$this->assertEquals('default', Icons::mapMimeToIconType());
 	}

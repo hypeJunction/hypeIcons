@@ -2,7 +2,7 @@
 	<fieldset>
 		<legend>Cropper Input</legend>
 		<?php
-		echo elgg_view_input('cropper', array(
+		echo elgg_view('input/cropper', array(
 			'name' => 'ci1',
 			'src' => elgg_get_simplecache_url('theme_sandbox/forms/cropper.jpg'),
 			'ratio' => 16 / 9,
@@ -10,13 +10,13 @@
 			'help' => 'Photo credit: <a href="http://www.flickr.com/photos/44073224@N04/28952967203">vinyl</a> via <a href="http://photopin.com">photopin</a> <a href="https://creativecommons.org/licenses/by-sa/2.0/">(license)</a>',
 		));
 
-		echo elgg_view_input('file', array(
+		echo elgg_view('input/file', array(
 			'name' => 'ci2',
 			'use_cropper' => true,
 			'label' => 'File input with a basic cropper (input/file)',
 		));
 
-		echo elgg_view_input('file', array(
+		echo elgg_view('input/file', array(
 			'name' => 'ci3',
 			'use_cropper' => array(
 				'name' => 'ccrop_coords',

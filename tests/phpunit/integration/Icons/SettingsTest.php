@@ -17,11 +17,17 @@ class SettingsTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeicons';
 	}
 
-	public function testUserWithExistingIconReturnsTrue(): void {
+	/**
+     * @return void
+     */
+    public function testUserWithExistingIconReturnsTrue(): void {
 		$user = $this->createUser();
 		$mock = $this->getMockBuilder(\ElggUser::class)
 			->disableOriginalConstructor()
@@ -35,7 +41,10 @@ class SettingsTest extends IntegrationTestCase {
 		$this->assertTrue(Settings::hasIconSupport($mock, 'icon'));
 	}
 
-	public function testFallsBackToPluginSettingWhenNoIcon(): void {
+	/**
+     * @return void
+     */
+    public function testFallsBackToPluginSettingWhenNoIcon(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -56,7 +65,10 @@ class SettingsTest extends IntegrationTestCase {
 		$this->assertFalse(Settings::hasIconSupport($mock, 'icon'));
 	}
 
-	public function testCoverTypeUsesCoverSetting(): void {
+	/**
+     * @return void
+     */
+    public function testCoverTypeUsesCoverSetting(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');

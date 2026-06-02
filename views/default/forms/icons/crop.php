@@ -30,12 +30,12 @@ if (!$size) {
 		return;
 }
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'guid',
 	'value' => $entity->guid,
 ]);
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'icon_type',
 	'value' => $icon_type,
 ]);
@@ -67,12 +67,12 @@ if ($icon_type == 'cover') {
 
 $ratio = $sizes['small']['w'] / $sizes['small']['h'];
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'size',
 	'value' => $size,
 ]);
 
-echo elgg_view_input('cropper', [
+echo elgg_view('input/cropper', [
 	'src' => $src,
 	'name' => 'crop_coords',
 	'x1' => $x1,
@@ -82,7 +82,7 @@ echo elgg_view_input('cropper', [
 	'ratio' => $ratio,
 ]);
 
-echo elgg_view_input('submit', [
+echo elgg_view('input/submit', [
 	'value' => elgg_echo('icons:crop'),
 	'field_class' => 'elgg-foot',
 ]);

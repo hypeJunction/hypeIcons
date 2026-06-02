@@ -18,11 +18,19 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 	public function down() {
 	}
 
-	public function getPluginID(): string {
+	/**
+     * @return string
+     */
+    public function getPluginID(): string {
 		return 'hypeicons';
 	}
 
-	protected function makeHook(array $params, $value = null): Hook {
+	/**
+     * @param array $params
+     * @param mixed $value
+     * @return Hook
+     */
+    protected function makeHook(array $params, $value = null): Hook {
 		$hook = $this->getMockBuilder(Hook::class)->getMock();
 		$hook->method('getName')->willReturn('entity:icon:url');
 		$hook->method('getType')->willReturn('object');
@@ -34,7 +42,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		return $hook;
 	}
 
-	public function testReturnsVoidWhenSettingDisabled(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenSettingDisabled(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -49,7 +60,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertNull(Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testReturnsVoidWhenEntityIsNotFile(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenEntityIsNotFile(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -64,7 +78,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertNull(Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testReturnsVoidWhenFileSubtypeIsNotFile(): void {
+	/**
+     * @return void
+     */
+    public function testReturnsVoidWhenFileSubtypeIsNotFile(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -81,7 +98,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertNull(Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testImageMimeWithIcontimePassesThroughExistingUrl(): void {
+	/**
+     * @return void
+     */
+    public function testImageMimeWithIcontimePassesThroughExistingUrl(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');
@@ -106,7 +126,10 @@ class SetDefaultFileIconsTest extends IntegrationTestCase {
 		$this->assertEquals('http://example.com/existing.png', Icons::setDefaultFileIcons($hook));
 	}
 
-	public function testPdfFileReturnsSimplecacheUrlForPdfIcon(): void {
+	/**
+     * @return void
+     */
+    public function testPdfFileReturnsSimplecacheUrlForPdfIcon(): void {
 		$plugin = \elgg_get_plugin_from_id('hypeicons');
 		if (!$plugin) {
 			$this->markTestSkipped('hypeicons plugin not registered in test DB');

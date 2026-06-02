@@ -2,7 +2,7 @@
 $entity = elgg_extract('entity', $vars);
 
 ob_start();
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[icon_corners]',
 	'value' => $entity->icon_corners ? : 'rounded',
 	'options_values' => array(
@@ -14,7 +14,7 @@ echo elgg_view_input('select', [
 	'help' => elgg_echo('interface:icons:corners:help'),
 ]);
 
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[replace_default_icons]',
 	'value' => $entity->replace_default_icons ? : false,
 	'options_values' => array(
@@ -25,7 +25,7 @@ echo elgg_view_input('select', [
 	'label' => elgg_echo('interface:icons:replace_default_icons:help'),
 ]);
 
-echo elgg_view_input('select', [
+echo elgg_view('input/select', [
 	'name' => 'params[replace_filetype_icons]',
 	'value' => $entity->replace_filetype_icons ? : false,
 	'options_values' => array(
