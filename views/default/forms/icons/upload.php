@@ -9,17 +9,17 @@ if (!$entity->canEdit() || !Settings::hasIconSupport($entity, $icon_type)) {
 	return;
 }
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'guid',
 	'value' => $entity->guid,
 ]);
 
-echo elgg_view_input('hidden', [
+echo elgg_view('input/hidden', [
 	'name' => 'icon_type',
 	'value' => $icon_type,
 ]);
 
-echo elgg_view_input('icon', [
+echo elgg_view('input/icon', [
 	'name' => 'icon',
 	'label' => elgg_echo('icons:file'),
 	'icon_type' => $icon_type,

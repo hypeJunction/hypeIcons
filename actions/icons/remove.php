@@ -14,4 +14,4 @@ if (!$entity || !$entity->canEdit()) {
 
 $entity->deleteIcon($icon_type);
 
-return elgg_ok_response('', elgg_echo("icons:$icon_type:remove:success"), REFERER);
+return elgg_ok_response('', elgg_echo("icons:$icon_type:remove:success"), REFERRER);

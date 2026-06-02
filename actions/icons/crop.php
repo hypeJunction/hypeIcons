@@ -57,4 +57,4 @@ if (elgg_trigger_event($event, $entity->type, $entity)) {
 	]);
 }
 
-return elgg_ok_response('', elgg_echo("icons:$icon_type:crop:success"), REFERER);
+return elgg_ok_response('', elgg_echo("icons:$icon_type:crop:success"), REFERRER);
