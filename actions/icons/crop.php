@@ -7,7 +7,7 @@
 use hypeJunction\Icons\Settings;
 
 $guid = get_input('guid');
-$entity = get_entity($guid);
+$entity = $guid ? get_entity((int) $guid) : null;
 
 $icon_type = get_input('icon_type', 'icon');
 $size = get_input('size', 'master');
@@ -57,4 +57,4 @@ if (elgg_trigger_event($event, $entity->type, $entity)) {
 	]);
 }
 
-return elgg_ok_response('', elgg_echo("icons:$icon_type:crop:success"), REFERER);
+return elgg_ok_response('', elgg_echo("icons:$icon_type:crop:success"), REFERRER);

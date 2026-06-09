@@ -5,9 +5,9 @@ use hypeJunction\Icons\Settings;
 $guid = elgg_extract('guid', $vars);
 $icon_type = elgg_extract('icon_type', $vars, 'icon');
 
-elgg_entity_gatekeeper($guid);
+elgg_entity_gatekeeper((int) $guid);
 
-$entity = get_entity($guid);
+$entity = get_entity((int) $guid);
 
 if (!$entity->canEdit() || !Settings::hasIconSupport($entity, $icon_type)) {
 	throw new \Elgg\Exceptions\HttpException('', ELGG_HTTP_FORBIDDEN);
