@@ -2,7 +2,7 @@ import $ from 'jquery';
 import spinner from 'elgg/spinner';
 import 'cropper';
 
-var lib = {
+const lib = {
 	init: function (element) {
 		if ($(element).is('[data-file-input]')) {
 			var fileInputId = $(element).data('fileInput');
@@ -15,7 +15,7 @@ var lib = {
 		}
 
 		$img.cropper({
-			mode: 3,
+			viewMode: 3,
 			aspectRatio: $(element).data('ratio'),
 			data: $img.data(),
 			crop: function (data) {
@@ -24,7 +24,7 @@ var lib = {
 				$('input[data-coord="y1"]', $(element)).val(data.y);
 				$('input[data-coord="y2"]', $(element)).val((data.y + data.height));
 			}
-			});
+		});
 	},
 	change: function (e) {
 		var $elem = $(this);
@@ -48,10 +48,10 @@ var lib = {
 			$('.cropper-input-image-container', $cropper).html($(img).addClass('cropper-input-image'));
 			lib.init($cropper);
 		};
-			reader.onloadstart = spinner.start;
-			reader.onloadend = spinner.stop;
-			reader.readAsDataURL(file);
+		reader.onloadstart = spinner.start;
+		reader.onloadend = spinner.stop;
+		reader.readAsDataURL(file);
 	}
-	};
+};
 
 export default lib;
