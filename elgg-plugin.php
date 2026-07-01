@@ -95,7 +95,9 @@ return [
 	],
 	'views' => [
 		'default' => [
-			'cropper.js' => __DIR__ . '/vendor/bower-asset/cropper/dist/cropper.min.js',
+			// Vendored Cropper UMD build, exposed as the ESM importmap entry `cropper`
+			// so `import 'cropper'` resolves from js/input/cropper.mjs (Elgg 7 importmap).
+			'cropper.mjs' => __DIR__ . '/vendor/bower-asset/cropper/dist/cropper.min.js',
 			'cropper.css' => __DIR__ . '/vendor/bower-asset/cropper/dist/cropper.min.css',
 		],
 	],

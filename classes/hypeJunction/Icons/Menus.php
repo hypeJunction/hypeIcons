@@ -160,7 +160,6 @@ class Menus {
 		if ($edit_icon) {
 			$edit_icon->setText($edit_icon->getTooltip());
 			$edit_icon->setLinkClass('elgg-button elgg-button-action');
-			$edit_icon->setSection($section);
 			$return[] = $edit_icon;
 		}
 

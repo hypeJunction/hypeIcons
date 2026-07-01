@@ -4,7 +4,7 @@
  * Remove entity icons
  */
 $guid = get_input('guid');
-$entity = get_entity($guid);
+$entity = $guid ? get_entity((int) $guid) : null;
 
 $icon_type = get_input('icon_type', 'icon');
 
@@ -14,4 +14,4 @@ if (!$entity || !$entity->canEdit()) {
 
 $entity->deleteIcon($icon_type);
 
-return elgg_ok_response('', elgg_echo("icons:$icon_type:remove:success"), REFERER);
+return elgg_ok_response('', elgg_echo("icons:$icon_type:remove:success"), REFERRER);

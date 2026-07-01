@@ -20,7 +20,7 @@ if (!isset($ratio)) {
 $x = 0;
 $y = 0;
 $width = 200;
-$height = $height * $ratio;
+$height = 200 * $ratio;
 
 $x1 = (int) elgg_extract('x1', $vars, 0);
 $y1 = (int) elgg_extract('y1', $vars, 0);
@@ -79,8 +79,7 @@ echo elgg_format_element('div', [
 	'data-ratio' => $ratio,
 ], $body);
 ?>
-<script>
-	require(['input/cropper'], function(input) {
-		input.init('#<?= $id ?>');
-	});
+<script type="module">
+	import lib from 'js/input/cropper';
+	lib.init('#<?= $id ?>');
 </script>

@@ -83,7 +83,7 @@ class Icons {
 			return;
 		}
 
-		$mimetype = $entity->mimetype ?: $entity->detectMimeType();
+		$mimetype = $entity->mimetype ?: $entity->getMimeType();
 		if (!$mimetype) {
 			$mimetype = 'application/otcet-stream';
 		}

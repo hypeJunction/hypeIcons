@@ -44,7 +44,7 @@ $options = [
 	'group:' => elgg_echo('item:group'),
 ];
 
-$registered_types = get_registered_entity_types();
+$registered_types = elgg_entity_types_with_capability('searchable');
 foreach ($registered_types as $type => $subtypes) {
 	if (empty($subtypes)) {
 		continue;
